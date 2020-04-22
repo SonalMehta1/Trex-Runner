@@ -10,7 +10,7 @@ var obstaclesGroup, obstacle1, obstacle2, obstacle3, obstacle4, obstacle5, obsta
 
 var score;
 var gameOver,gameOverImage, restart,restartImage;
-
+var localStorage["HighestScore"]=0;
 
 function preload(){
   trex_running = loadAnimation("trex1.png","trex3.png","trex4.png");
@@ -69,7 +69,7 @@ function draw() {
   score = score + Math.round(getFrameRate()/60);
   
   
-  if(keyDown("space") ) {
+  if(keyDown("space") && trex.y>150) {
     trex.velocityY = -10;
   }
   
@@ -84,6 +84,10 @@ function draw() {
   spawnObstacles();
     if(trex.isTouching(obstaclesGroup)){
       gameState=END;
+      if(localStorage["HighestScore"]<score){
+        localStorage["HighestScore"]=score;
+        console.log(localStorage["HighestScore"]);
+      }
     }
   }
   else if(gameState===END){
@@ -112,6 +116,7 @@ function reset(){
   ground.velocityX=-2;
   gameOver.visible=false;
   restart.visible=false;
+  
 }
 
 function spawnClouds() {
